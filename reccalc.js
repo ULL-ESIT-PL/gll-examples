@@ -36,7 +36,7 @@ var e = alt(
 );
 
 
-var input = "3 + 5 * 4 - 2";
+var input = "3 + 5 * (4 - 2)";
 console.log(input);
 r = e.run(input);
 console.log(ins(r)); 
