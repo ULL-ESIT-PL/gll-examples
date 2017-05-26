@@ -2,13 +2,16 @@ var insp = require("util").inspect;
 var ins = (x) => insp(x, {depth: null});
 
 var $p = require("packrattle");
+var seq = $p.seq;
+var alt = $p.alt;
+var regex = $p.regex;
 
 var _ = $p(/[ \t]*/);
 
 var token = (char) => {
   let t = char;
   if (char.constructor.name === 'RegExp') 
-    t = $p.regex(char).map(m => m[0]);
+    t = regex(char).map(m => m[0]);
   return  $p([ _, t, _ ]).map(m => m[1]);
 };
 
@@ -19,16 +22,16 @@ var RP = token(')');
 var MULT = token(new RegExp('[*/]'));
 var ADD = token(/[+-]/);
 
-var factor = $p.alt(
+var factor = alt(
   NUMBER,
   ID,
-  $p.seq( LP, () => e, RP).map(m => m[1])
+  seq( LP, () => e, RP).map(m => m[1])
 );
-var term = $p.alt(
+var term = alt(
   [ () => term, MULT, factor ],
   factor
 );
-var e = $p.alt(
+var e = alt(
   [ () => e, ADD, term ],
   term
 );
