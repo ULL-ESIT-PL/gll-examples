@@ -5,16 +5,7 @@ var $p = require("packrattle");
 var seq = $p.seq;
 var alt = $p.alt;
 var regex = $p.regex;
-Array.prototype.sem = (f) => $p(this).map(f);
-
-var _ = $p(/[ \t]*/);
-
-var token = (char) => {
-  let t = char;
-  if (char.constructor.name === 'RegExp') 
-    t = regex(char).map(m => m[0]);
-  return  $p([ _, t, _ ]).map(m => m[1]);
-};
+var {setWhites, token} = require("token");
 
 var NUMBER = token(/\d+/); 
 var LP = token('(');
